@@ -1,9 +1,11 @@
 ---
 title: "Encontro dos Saberes RESEX Cazumbá-Iracema (2022)"
-subtitle: "Análise de aves – 2014 a 2021"
 author: "Arlindo Gomes Filho - ICMBio/CEMAVE"
 date: "`r Sys.Date()`"
-output: html_document
+output:
+  pdf_document: default
+  html_document: default
+subtitle: Análise de aves – 2014 a 2021
 fontsize: 12pt
 ---
 
@@ -37,10 +39,10 @@ Trata-se de um relatório simplificado, contendo informações básicas e result
 # Esforço amostral
 
 O protocolo básico para aves utiliza o método de transecções lineares, assim como o
-de mamíferos. Dois observadores percorrem as trilhas a uma velocidade constante e registram, para cada avistamento de animais dos grupos-alvo, a espécie, o número de indivíduos e a distância perperndicular entre o primeiro indivíduo avistado e o centro da trilha. Em 8 ANOS de projeto já foram percorridos 1200 km de trilhas (Tabela 1).  
+de mamíferos. Dois observadores percorrem as trilhas a uma velocidade constante e registram, para cada avistamento de animais dos grupos-alvo, a espécie, o número de indivíduos e a distância perperndicular entre o primeiro indivíduo avistado e o centro da trilha. Em 8 ANOS de projeto já foram percorridos 1200 km de trilhas (Figura 1).  
 
 
-```{r 01, fig.align = 'center', fig.cap="Tabela 1.Esforço amostral para o monitoramento de aves na RESEX do Cazumbá-Iracema, 2014-2021"}
+```{r 01, fig.align = 'center', out.width = "55%", fig.cap="Esforço amostral para o monitoramento de aves na RESEX do Cazumbá-Iracema, 2014-2021"}
 
 knitr::include_graphics("imagens/esforco_amostral.jpg")
 
@@ -49,9 +51,9 @@ knitr::include_graphics("imagens/esforco_amostral.jpg")
 
 ## Espécies/grupos registrados e número total de encontros
 
-Nove espécies/grupos de aves foram registrados no monitoramento de aves da RESEX do Cazumbá-Iracema de 2014 a 2021. Na (Tabela 2) são apresentadas as espécies/grupos observados e o número total de encontros registrados ao longo do período de amostagem.  Os grupos mais observados foram: Jacus, Nambus, Jacamins, Azulonas e Urus.
+Nove espécies/grupos de aves foram registrados no monitoramento de aves da RESEX do Cazumbá-Iracema de 2014 a 2021. Na (Figura 2) são apresentadas as espécies/grupos observados e o número total de encontros registrados ao longo do período de amostagem.  Os grupos mais observados foram: Jacus, Nambus, Jacamins, Azulonas e Urus.
 
-```{r 02, fig.align = 'center', fig.cap="Tabela 2. Espécies/grupos observados e o número total de encontros registrados - 2014-2021. As cores representam diferentes categorias de tamanho: aves pequenas - azul; médias - marrom; grandes - verde."}
+```{r 02, fig.align = 'center', out.width = "55%", fig.cap="Espécies/grupos observados e o número total de encontros registrados - 2014-2021. As cores representam diferentes categorias de tamanho: aves pequenas - azul; médias - marrom; grandes - verde."}
 
 knitr::include_graphics("imagens/tabela_total_encontros.jpg")
 
@@ -63,33 +65,33 @@ Ressalta-se que diversos fatores podem influenciar a taxa de encontros. Espécie
 
 ## Tendências populacionais
 
-Considerando conjuntamente todas as espécies/grupos registrados, a taxa de encontros, de forma geral, pareceu estável ao longo do período amostrado, apresentando, porém, uma indicação de oscilação (aumento em 2016 seguido de ligeira queda em 2017 - Figura 1).
+Considerando conjuntamente todas as espécies/grupos registrados, a taxa de encontros, de forma geral, pareceu estável ao longo do período amostrado, apresentando, porém, uma indicação de oscilação (aumento em 2016 seguido de ligeira queda em 2017 - Figura 3).
 
 
 
-```{r 03, fig.align = 'center', fig.cap="Figura 1. Variação da taxa de encontro ao longo do tempo, considerando conjuntamente todos os grupos registrados."}
+```{r 03, fig.align = 'center', out.width = "55%", fig.cap="Variação da taxa de encontro ao longo do tempo, considerando conjuntamente todos os grupos registrados."}
 
 knitr::include_graphics("imagens/taxa_encontro_total.jpg")
 
 ```
 
-Quando as espécies/grupos de aves são avalidas separadamente, as respostas em termos de flutuação dos registros ao longo do tempo são mais variáveis. Os registros para cada espécie/grupo de aves são apresentados nas Figuras 2 a 4.
+Quando as espécies/grupos de aves são avalidas separadamente, as respostas em termos de flutuação dos registros ao longo do tempo são mais variáveis. Os registros para cada espécie/grupo de aves são apresentados nas Figuras 4 a 6.
 
-```{r 04, fig.align = 'center', fig.cap="Figura 2. Variação nas taxas de encontro de Crypturellus spp. e Tinamus spp. ao longo do tempo."}
+```{r 04, fig.align = 'center', out.width = "55%", fig.cap="Variação nas taxas de encontro de Crypturellus spp. e Tinamus spp. ao longo do tempo."}
 
 knitr::include_graphics("imagens/familia1.jpg")
 
 ```
 
 
-```{r 05, fig.align = 'center', fig.cap="Figura 3. Variação nas taxas de encontro de Psophia leucoptera e Odontophorus stellatus ao longo do tempo."}
+```{r 05, fig.align = 'center', out.width = "55%", fig.cap="Variação nas taxas de encontro de Psophia leucoptera e Odontophorus stellatus ao longo do tempo."}
 
 knitr::include_graphics("imagens/familia2.jpg")
 
 ```
 
 
-```{r 06, fig.align = 'center', fig.cap="Figura 4. Variação nas taxas de encontro de Penelope jacquacu, Pauxi tuberosa, Ortalis guttata, Nothocrax urumutum e Aburria cumanensis ao longo do tempo."}
+```{r 06, fig.align = 'center', out.width = "55%", fig.cap="Variação nas taxas de encontro de Penelope jacquacu, Pauxi tuberosa, Ortalis guttata, Nothocrax urumutum e Aburria cumanensis ao longo do tempo."}
 
 knitr::include_graphics("imagens/familia3.jpg")
 
@@ -97,41 +99,43 @@ knitr::include_graphics("imagens/familia3.jpg")
 
 ## Diferenças/similaridades entre localidades (trilhas)
 
-Os dados foram analisados também em relação às localidades amostradas. A trilha Gamas apresentou o maior percentual de registros (> 50%), mas apenas 5 espécies/grupos de aves foram registrados nessa localidade, enquanto nas trilhas Cazumbá e Alto Caeté foram observados 7 espécies/grupos (Figuras 5 a 8).  
+Os dados foram analisados também em relação às localidades amostradas. A trilha Gamas apresentou o maior percentual de registros (> 50%), mas apenas 5 espécies/grupos de aves foram registrados nessa localidade, enquanto nas trilhas Cazumbá e Alto Caeté foram observados 7 espécies/grupos (Figuras 7 a 10).  
 
 
-```{r 07, fig.align = 'center', out.width = "55%", fig.cap="Figura 5. Variação nas taxas de encontro de Crypturellus spp. e Tinamus spp. ao longo do tempo."}
+```{r 07, fig.align = 'center', out.width = "55%", fig.cap="Variação nas taxas de encontro de Crypturellus spp. e Tinamus spp. ao longo do tempo."}
 
 knitr::include_graphics("imagens/trilha_gamas.jpg")
 
 ```
 
 
-```{r 08, fig.align = 'center', out.width = "55%", fig.cap="Figura 6. Variação nas taxas de encontro de Crypturellus spp. e Tinamus spp. ao longo do tempo."}
+```{r 08, fig.align = 'center', out.width = "55%", fig.cap="Variação nas taxas de encontro de Crypturellus spp. e Tinamus spp. ao longo do tempo."}
 
 knitr::include_graphics("imagens/trilha_cazumba.jpg")
 
 ```
 
 
-```{r 9, fig.align = 'center', out.width = "55%", fig.cap="Figura 7. Variação nas taxas de encontro de Crypturellus spp. e Tinamus spp. ao longo do tempo."}
+```{r 9, fig.align = 'center', out.width = "55%", fig.cap="Variação nas taxas de encontro de Crypturellus spp. e Tinamus spp. ao longo do tempo."}
 
 knitr::include_graphics("imagens/trilha_alto_caete.jpg")
 
 ```
 
-```{r 10, fig.align = 'center', out.width = "55%", fig.cap="Figura 8. As trilhas Cazumbá e Alto Caeté mostraram-se mais similares com base na riqueza e abundância de espécies/grupos registrados."}
+```{r 10, fig.align = 'center', out.width = "55%", fig.cap="As trilhas Cazumbá e Alto Caeté mostraram-se mais similares com base na riqueza e abundância de espécies/grupos registrados."}
 
 knitr::include_graphics("imagens/similaridade_trilhas.jpg")
 
 ```
 
+\newpage
+
 ## Análise por famílias
 
-As famílias com mais registros foram Tinamidae e Cracidae, seguidas por Psophidae e Odontophoridae (Figura 9). Os resultados da RESEX do Cazumbá-Iracema estão alinhados aos resultados observados para outras unidades de conservação Amazônicas.
+As famílias com mais registros foram Tinamidae e Cracidae, seguidas por Psophidae e Odontophoridae (Figura 11). Os resultados da RESEX do Cazumbá-Iracema estão alinhados aos resultados observados para outras unidades de conservação Amazônicas.
 
 
-```{r 11, fig.align = 'center', out.width = "55%", fig.cap="Figura 9. Registros de espécies/grupos de aves na RESEX do Cazumbá-Iracema organizados por família (valores absolutos e percentual)."}
+```{r 11, fig.align = 'center', out.width = "55%", fig.cap="Registros de espécies/grupos de aves na RESEX do Cazumbá-Iracema organizados por família (valores absolutos e percentual)."}
 
 knitr::include_graphics("imagens/registros_familia.jpg")
 
@@ -140,18 +144,18 @@ knitr::include_graphics("imagens/registros_familia.jpg")
 
 ## Análise por tamanho
 
-As espécies/grupos registrados foram também separadas em três categorias de tamanho (aves Pequenas, Médias e Grandes). Foram registradas três espécies/grupos de aves pequenas, cinco de tamanho médio e uma grande (Figura 10).
+As espécies/grupos registrados foram também separadas em três categorias de tamanho (aves Pequenas, Médias e Grandes). Foram registradas três espécies/grupos de aves pequenas, cinco de tamanho médio e uma grande (Figura 12).
 
 
-```{r 12, fig.align = 'center', out.width = "55%", fig.cap="Figura 10. Aves monitoradas na RESEX do Cazumbá-Iracema em suas respectivas categorias de tamanho."}
+```{r 12, fig.align = 'center', out.width = "65%", fig.cap="Aves monitoradas na RESEX do Cazumbá-Iracema em suas respectivas categorias de tamanho."}
 
 knitr::include_graphics("imagens/tamanho.jpg")
 
 ```
 
-A proporção de aves registradas em cada categoria de tamanho para o período de 2014-2021 é apresentada na Figura 11.  
+A proporção de aves registradas em cada categoria de tamanho para o período de 2014-2021 é apresentada na Figura 13.  
 
-```{r 13, fig.align = 'center', out.width = "85%", fig.cap="Figura 11. Proporção de registros de espécies/grupos de aves pequenas, médias e grandes obtidos na RESEX do Cazumbá-Iracema de 2014-2021."}
+```{r 13, fig.align = 'center', out.width = "85%", fig.cap="Proporção de registros de espécies/grupos de aves pequenas, médias e grandes obtidos na RESEX do Cazumbá-Iracema de 2014-2021."}
 
 knitr::include_graphics("imagens/Registros_por_tamanho.jpg")
 
