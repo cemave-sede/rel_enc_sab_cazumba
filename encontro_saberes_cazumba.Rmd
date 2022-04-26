@@ -1,7 +1,7 @@
 ---
 title: "Encontro dos Saberes RESEX Cazumbá-Iracema (2022)"
 subtitle: "Análise de aves – 2014 a 2021"
-author: "Arlindo Gomes Filho- ICMBio/CENAP"
+author: "Arlindo Gomes Filho - ICMBio/CEMAVE"
 date: "`r Sys.Date()`"
 output: html_document
 fontsize: 12pt
@@ -21,183 +21,150 @@ knitr::opts_chunk$set(
 
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
-# rodar codigo para cazumba
-#source(here("encontro_saberes", "encontro_saberes_cazumba.R"))
-# Carregar pacotes
-library(here)
+
 library(tidyverse)
 library(lubridate)
-#library(R2jags)
 
-# # carregar funcoes
-# source(here("bin", "lpi_icmbio.R"))
-# source(here("experimental", "population-functions_cazumba2014-2020.R"))
-# 
-# # para os testes usar dados de Cazumba-Iracema
-# cazumba <- read_csv(here("data", "cazumba-2014-2021.csv")) 
-# 
-# # arrumar os dados
-# cazumba <- cazumba %>%
-#   rename(nome_UC = "Local - Nome da Unidade de Conservação",
-#          estacao_amostral = "Número da Estação Amostral",
-#          esforco = "Esforço de amostragem tamanho da trilha (m)",
-#          data = "data da amostragem",
-#          ano = "Ano",
-#          classe = "Classe",
-#          ordem = "Ordem",
-#          familia = "Família",
-#          genero = "Gênero",
-#          especie = "Espécies validadas para análise do ICMBio",
-#          n_animais = "n° de animais") %>%
-#   select(nome_UC, estacao_amostral, esforco, data, ano, classe, ordem,
-#          familia, genero, especie, n_animais) %>%
-#   mutate(data = as.Date(data, "%d/%m/%Y"))
-# 
-# # agrupar sciurideos
-# cazumba <- cazumba %>%
-#   mutate(especie = replace(especie, especie %in% c("Guerlinguetus ignitus", "Urosciurus spadiceus", "Microsciurus flaviventer"),
-#                            "Sciuridae"))
-# 
-# # tabela 1: registros por especie
-# tabela_1 <- cazumba %>%
-#   filter(classe == "Mammalia",
-#          ordem != "Primates") %>%
-#   mutate(especie = replace(especie, especie %in% c("Guerlinguetus ignitus", "Urosciurus spadiceus", "Microsciurus flaviventer"),
-#                            "Sciuridae")) %>%
-#   group_by(especie) %>%
-#   summarize(n = n(),
-#             n_ind = sum(n_animais))%>%
-#   left_join(cazumba %>%
-#               select(ordem, familia, especie), by="especie") %>%
-#   distinct(especie, .keep_all = TRUE) %>%
-#   arrange(ordem, familia, especie) %>%
-#   mutate(nome_popular = ifelse(especie == "Mazama americana", "Veado-mateiro",
-#                         ifelse(especie == "Mazama americana", "Veado-mateiro",
-#                         ifelse(especie == "Pecari tajacu", "Caititu",
-#                         ifelse(especie == "Tayassu pecari", "Queixada",
-#                         ifelse(especie == "Speothos venaticus", "Janauira",
-#                         ifelse(especie == "Leopardus pardalis", "Maracajá-açu",
-#                         ifelse(especie == "Leopardus tigrinus", "Gato-do-mato",
-#                         ifelse(especie == "Leopardus wiedii", "Maracajá-peludo",
-#                         ifelse(especie == "Panthera onca", "Onça-pintada",
-#                         ifelse(especie == "Puma concolor", "Onça-vermelha",
-#                         ifelse(especie == "Puma yagouaroundi", "Gato-mourisco",
-#                         ifelse(especie == "Eira barbara", "Irara",
-#                         ifelse(especie == "Galictis vittata", "Furão",
-#                         ifelse(especie == "Nasua nasua", "Quati",
-#                         ifelse(especie == "Cabassous unicinctus", "Tatu-de-rabo-mole",
-#                         ifelse(especie == "Dasypus novencimctus", "Tatu-galinha",
-#                         ifelse(especie == "Priodontes maximus", "Tatu-canastra",
-#                         ifelse(especie == "Tapirus terrestris", "Anta",
-#                         ifelse(especie == "Bradypus variegatus", "Preguiça",
-#                         ifelse(especie == "Choloepus hoffmanni", "Preguiça-real",
-#                         ifelse(especie == "Myrmecophaga tridactyla", "Tamanduá-bandeira",
-#                         ifelse(especie == "Tamandua tetradactyla", "Mambira",
-#                         ifelse(especie == "Dasyprocta fuliginosa", "Cutia",
-#                         ifelse(especie == "Myoprocta pratti", "Cutiara",
-#                         ifelse(especie == "Coendou bicolor", "Quandú",
-#                         ifelse(especie == "Sciuridae", "Quatipuru",
-#                         "no" ))))))))))))))))))))))))))) %>%
-#   select(ordem, familia, especie, nome_popular, n, n_ind) %>%
-#   rename(Ordem = ordem, Familia = familia, Especie = especie, 
-#          'Nome popular' = nome_popular, Encontros = n,
-#          Individuos = n_ind)
-# 
-# 
-# # esforco por ano
-# esforco_anual <- cazumba %>%
-#   group_by(ano) %>%
-#   summarize(esforco = sum(esforco, na.rm = TRUE))
-# 
-# # numero de registros por ano
-# n_registros <- cazumba %>%
-#   filter(classe == "Mammalia",
-#          ordem != "Primates") %>%
-#   group_by(ano, especie) %>%
-#   count()
-# 
-# # taxa de encontro por ano
-# taxa_encontro <- left_join(esforco_anual, n_registros, by=c("ano")) %>%
-#   mutate(taxa_encontro = n/(esforco/1000)) %>%
-#   select(ano, especie, taxa_encontro) %>%
-#   arrange(especie, ano)
-# 
-# # colocar em formato wide
-# taxa_encontro_wide <- taxa_encontro %>%
-#   pivot_wider(names_from = ano, values_from = taxa_encontro) %>%
-#   select(especie, `2014`, `2015`, `2016`, `2017`,  `2018`, `2019`, `2020`, `2021`) %>%
-#   replace(is.na(.), 0.001)
-# 
-# # selecionar as especies mais comuns (taxa media > 0.025)
-# taxa_encontro_wide <- taxa_encontro_wide %>%
-#   mutate(means = rowMeans(.[,2:9])) %>%
-#   arrange(desc(means)) %>%
-#   filter(means > 0.05) %>%
-#   #select(-means) %>%
-#   mutate_at(2:9, round, 2)
 ```
 
 ## Apresentação
 
 Este relatório apresenta resultados do Programa Monitora, Subprograma Terrestre, Componente Florestal Global, Alvo Aves, protocolo básico, na **Reserva Extrativista Cazumbá-Iracema**, para o período de 2014 a 2021. O principal objetivo é subsidiar o Encontro dos Saberes que será realizado nesta unidade em março/abril de 2022.
 
-Por se tratar de um relatório simplificado, este documento não inclui detalhes sobre métodos de coleta ou análise dos dados. Ele também não inclui detalhes sobre o esforço de amostragem, pois essa informação já consta do relatório produzido pelo CEMAVE. Portanto, o relatório apenas apresenta as variações anuais nas populações de espécies ou grupos de aves registrados na área.
+Trata-se de um relatório simplificado, contendo informações básicas e resultados de análises preliminares relativas ao monitoramento de aves na área. Apresenta as espécies/grupos de aves registrados, o total de registros e sua flutuação ao longo do tempo, os registros por trilhas e sua similaridade, além dos registros por família e por classes e tamanho. Tais resultados propiciam algumas reflexões iniciais sobre a situação desse grupo de animais sob monitoramento na Reserva Extrativista do Cazumbá-Iracema.  
 
 
-## Número total de encontros
+# Esforço amostral
 
-A tabela 1 apresenta o número total de encontros e de indivíduos avistados por espécie/grupo.
-
-As espécies mais encontradas foram, nessa ordem: quatipuru, cutia, caititu, cutiara e veado mateiro. Os quatipurus incluem três espécies diferentes, que foram agrupadas. As outras espécies foram encontradas poucas vezes.
-
-Algumas espécies vivem em grupos, por isso o número indivíduos pode ser maior do que o número de encontros. Por exemplo, o caititu, que vive em grupos, ficou em terceiro lugar no número de encontros, mas em primeiro lugar no número de indivíduos.
-
-De forma geral, as espécies com mais indivíduos foram também as mais encontradas. Ainda assim, houve algumas exceções: por exemplo, os quatis ficaram em oitavo lugar no número de encontros, mas em quarto lugar no número de indivíduos.
-
-É importante lembrar que só porque uma espécie foi registrada poucas vezes, não quer dizer necessariamente que ela seja rara. Por exemplo, o protocolo não funciona bem para espécies noturnas como as antas e as pacas, pois as trilhas são percorridas durante o dia, quando essas espécies estão menos ativas. Além disso, espécies que são caçadas podem ficar muito ariscas, fugindo ao menor sinal da aproximação de pessoas. 
+O protocolo básico para aves utiliza o método de transecções lineares, assim como o
+de mamíferos. Dois observadores percorrem as trilhas a uma velocidade constante e registram, para cada avistamento de animais dos grupos-alvo, a espécie, o número de indivíduos e a distância perperndicular entre o primeiro indivíduo avistado e o centro da trilha. Em 8 ANOS de projeto já foram percorridos 1200 km de trilhas (Tabela 1).  
 
 
-```{r}
-# library(knitr)
-# library(kableExtra)
-# knitr::kable(
-#   tabela_1,
-#   caption = 'Numero de registros por especie obtidos pelo protocolo básico do Programa Monitora na Resex Cazumbá-Iracema, 2014-2021', booktabs = T, align = c("l", "l", "l", "l", "c")
-#   ) %>%
-#   kable_classic(full_width = F, html_font = "Cambria")
+```{r 01, fig.align = 'center', fig.cap="Tabela 1.Esforço amostral para o monitoramento de aves na RESEX do Cazumbá-Iracema, 2014-2021"}
+
+knitr::include_graphics("imagens/esforco_amostral.jpg")
+
 ```
+
+
+## Espécies/grupos registrados e número total de encontros
+
+Nove espécies/grupos de aves foram registrados no monitoramento de aves da RESEX do Cazumbá-Iracema de 2014 a 2021. Na (Tabela 2) são apresentadas as espécies/grupos observados e o número total de encontros registrados ao longo do período de amostagem.  Os grupos mais observados foram: Jacus, Nambus, Jacamins, Azulonas e Urus.
+
+```{r 02, fig.align = 'center', fig.cap="Tabela 2. Espécies/grupos observados e o número total de encontros registrados - 2014-2021. As cores representam diferentes categorias de tamanho: aves pequenas - azul; médias - marrom; grandes - verde."}
+
+knitr::include_graphics("imagens/tabela_total_encontros.jpg")
+
+```
+
+
+Ressalta-se que diversos fatores podem influenciar a taxa de encontros. Espécies que são caçadas, por exemplo, podem ficar mais ariscas, fugindo ao menor sinal da aproximação de pessoas. 
 
 
 ## Tendências populacionais
 
-Nesta seção, incluímos somente as quatro espécies que apresentaram taxa de encontro anual média > 0.05 ind/km: quatipuru, cutia, caititu e cutiara (Tabela 2, Figuras 1 a 4). As outras especies não tiveram número de eoncontros suficiente para permitir uma análise de suas tendências populacionais.
+Considerando conjuntamente todas as espécies/grupos registrados, a taxa de encontros, de forma geral, pareceu estável ao longo do período amostrado, apresentando, porém, uma indicação de oscilação (aumento em 2016 seguido de ligeira queda em 2017 - Figura 1).
 
-```{r}
-# knitr::kable(
-#   taxa_encontro_wide,
-#   caption = 'Taxa de encontro anuais para as especies mais comuns de mamíferos terrestres em Cazumbá-Iracema. Somente espécies com taxa de encontro anual média > 0.02 ind/km foram incluídas', booktabs = T, align = c("l", "c")
-#   ) %>%
-#   kable_classic(full_width = F, html_font = "Cambria")
+
+
+```{r 03, fig.align = 'center', fig.cap="Figura 1. Variação da taxa de encontro ao longo do tempo, considerando conjuntamente todos os grupos registrados."}
+
+knitr::include_graphics("imagens/taxa_encontro_total.jpg")
 
 ```
 
-```{r, fig.cap="Taxa de encontro anual para Quatipuru na Resex Cazumbá-Iracema, 2014-2021"}
-# include_graphics(here("encontro_saberes", "Sciuridae 2014 a 2021.jpeg"))
-```
+Quando as espécies/grupos de aves são avalidas separadamente, as respostas em termos de flutuação dos registros ao longo do tempo são mais variáveis. Os registros para cada espécie/grupo de aves são apresentados nas Figuras 2 a 4.
 
-```{r, fig.cap="Taxa de encontro anual para Cutia (*Dasyprocta fuliginosa*) na Resex Cazumbá-Iracema, 2014-2021"}
-# include_graphics(here("encontro_saberes", "Dasyprocta fuliginosa 2014 a 2021.jpeg"))
-```
+```{r 04, fig.align = 'center', fig.cap="Figura 2. Variação nas taxas de encontro de Crypturellus spp. e Tinamus spp. ao longo do tempo."}
 
-```{r, fig.cap="Taxa de encontro anual para Cutiara (*Myoprocta pratti*) na Resex Cazumbá-Iracema, 2014-2021"}
-# include_graphics(here("encontro_saberes", "Myoprocta pratti 2014 a 2021.jpeg"))
-```
+knitr::include_graphics("imagens/familia1.jpg")
 
-```{r, fig.cap="Taxa de encontro anual para Caititu (*Pecari tajacu*) na Resex Cazumbá-Iracema, 2014-2021"}
-# include_graphics(here("encontro_saberes", "Pecari tajacu 2014 a 2021.jpeg"))
 ```
 
 
+```{r 05, fig.align = 'center', fig.cap="Figura 3. Variação nas taxas de encontro de Psophia leucoptera e Odontophorus stellatus ao longo do tempo."}
 
+knitr::include_graphics("imagens/familia2.jpg")
+
+```
+
+
+```{r 06, fig.align = 'center', fig.cap="Figura 4. Variação nas taxas de encontro de Penelope jacquacu, Pauxi tuberosa, Ortalis guttata, Nothocrax urumutum e Aburria cumanensis ao longo do tempo."}
+
+knitr::include_graphics("imagens/familia3.jpg")
+
+```
+
+## Diferenças/similaridades entre localidades (trilhas)
+
+Os dados foram analisados também em relação às localidades amostradas. A trilha Gamas apresentou o maior percentual de registros (> 50%), mas apenas 5 espécies/grupos de aves foram registrados nessa localidade, enquanto nas trilhas Cazumbá e Alto Caeté foram observados 7 espécies/grupos (Figuras 5 a 8).  
+
+
+```{r 07, fig.align = 'center', out.width = "55%", fig.cap="Figura 5. Variação nas taxas de encontro de Crypturellus spp. e Tinamus spp. ao longo do tempo."}
+
+knitr::include_graphics("imagens/trilha_gamas.jpg")
+
+```
+
+
+```{r 08, fig.align = 'center', out.width = "55%", fig.cap="Figura 6. Variação nas taxas de encontro de Crypturellus spp. e Tinamus spp. ao longo do tempo."}
+
+knitr::include_graphics("imagens/trilha_cazumba.jpg")
+
+```
+
+
+```{r 9, fig.align = 'center', out.width = "55%", fig.cap="Figura 7. Variação nas taxas de encontro de Crypturellus spp. e Tinamus spp. ao longo do tempo."}
+
+knitr::include_graphics("imagens/trilha_alto_caete.jpg")
+
+```
+
+```{r 10, fig.align = 'center', out.width = "55%", fig.cap="Figura 8. As trilhas Cazumbá e Alto Caeté mostraram-se mais similares com base na riqueza e abundância de espécies/grupos registrados."}
+
+knitr::include_graphics("imagens/similaridade_trilhas.jpg")
+
+```
+
+## Análise por famílias
+
+As famílias com mais registros foram Tinamidae e Cracidae, seguidas por Psophidae e Odontophoridae (Figura 9). Os resultados da RESEX do Cazumbá-Iracema estão alinhados aos resultados observados para outras unidades de conservação Amazônicas.
+
+
+```{r 11, fig.align = 'center', out.width = "55%", fig.cap="Figura 9. Registros de espécies/grupos de aves na RESEX do Cazumbá-Iracema organizados por família (valores absolutos e percentual)."}
+
+knitr::include_graphics("imagens/registros_familia.jpg")
+
+```
+
+
+## Análise por tamanho
+
+As espécies/grupos registrados foram também separadas em três categorias de tamanho (aves Pequenas, Médias e Grandes). Foram registradas três espécies/grupos de aves pequenas, cinco de tamanho médio e uma grande (Figura 10).
+
+
+```{r 12, fig.align = 'center', out.width = "55%", fig.cap="Figura 10. Aves monitoradas na RESEX do Cazumbá-Iracema em suas respectivas categorias de tamanho."}
+
+knitr::include_graphics("imagens/tamanho.jpg")
+
+```
+
+A proporção de aves registradas em cada categoria de tamanho para o período de 2014-2021 é apresentada na Figura 11.  
+
+```{r 13, fig.align = 'center', out.width = "85%", fig.cap="Figura 11. Proporção de registros de espécies/grupos de aves pequenas, médias e grandes obtidos na RESEX do Cazumbá-Iracema de 2014-2021."}
+
+knitr::include_graphics("imagens/Registros_por_tamanho.jpg")
+
+```
+
+# Alguns pontos para análise/reflexão
+
+Inicialmente, destaca-se que a equipe envolvida na execução do monitoramento vem realizando um excelente trabalho, tendo em vista a adequada aplicação do protocolo, com adoção dos procedimentos previstos, e o fato de não ter havido nenhuma lacuna de amostragem de 2014 a 2021. No período foram percorridos 1200 km de trilhas, com amostragens regulares em todas as três localidades, conferindo qualidade e robustez aos dados e resultados obtidos.  
+
+Os táxons (espécies/grupos) esperados foram registrados na UC e considerando o conjunto de aves observadas, houve um pequeno aumento no número de registros em 2016, seguido de queda em 2017, ainda que a tendência geral pareça ser de estabilidade. Quais fatores poderiam explicar essa aparente variação na abundância dos grupos monitorados?
+
+Algumas diferenças na riqueza (quantas espécies/grupos diferentes ocorrem), na abundância (a quantidade de registros de cada espécie/grupo) e na composição (quais são as espécies/grupos registradas em cada trilha) foram observadas entre as localidades. A localidade "Gamas", por exemplo, apresentou o maior número de registros, porém com uma menor riqueza e as potenciais causas para tais resultados devem ser levantadas pelo grupo de atores envolvidos no processo de monitoramento.
+
+Por fim, destaca-se também o baixo número de registros de espécies/grupos de aves de maior porte. Esse resultado parece estar alinhado ao observado em outras unidades de conservação do estado do Acre, cabendo também uma uma reflexão sobre suas potenciais causas.
 
 
